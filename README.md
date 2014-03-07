@@ -17,6 +17,7 @@ The list is taken from [thekangarangoel's repo](https://github.com/thekarangoel/
 [code](next_prime/primes.go)
 
 **Find Cost of Tile to Cover W x H Floor** - Calculate the total cost of tile it would take to cover a floor plan of width and height, using a cost entered by the user.
+[code](floor_cost/floor.go)
 
 **Mortgage Calculator** - Calculate the monthly payments of a fixed term mortgage over given Nth terms at a given interest rate. Also figure out how long it will take the user to pay back the loan.
 
