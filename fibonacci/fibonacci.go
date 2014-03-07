@@ -1,12 +1,12 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 	"strconv"
 )
 
-func fib (arr []uint64, i int) []uint64 {
+func fib(arr []uint64, i int) []uint64 {
 	// return if done
 	if i == len(arr) {
 		return arr

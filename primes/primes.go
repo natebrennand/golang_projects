@@ -13,7 +13,7 @@ func FindPrimes(results []int, n int) []int {
 		if i > n {
 			return results
 		}
-		if n % i == 0 {
+		if n%i == 0 {
 			n /= i
 			// skip repeats
 			if len(results) == 0 || results[len(results)-1] != i {
