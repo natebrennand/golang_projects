@@ -37,4 +37,5 @@ func main() {
 
 	results = fib(results, 2)
 	fmt.Println(results)
+	os.Exit(0)
 }
