@@ -6,73 +6,52 @@ import (
 	"strconv"
 )
 
-func GetChange(tendered, cost int) map[string]int {
-	change := make(map[string]int)
+type Unit struct {
+	name string
+	diff int    // in cents
+	count int
+}
 
+func (u Unit) give (change int) bool {
+	if u.diff <= change {
+		return true
+	}
+	return false
+}
+
+func (u Unit) toString () string {
+	if u.count > 0 {
+		return fmt.Sprintf("%s: %d ", u.name, u.count)
+	}
+	return ""
+}
+
+func GetChange(tendered, cost int) []Unit {
+	changeOptions := []Unit{
+		Unit{"twenty", 2000, 0},
+		Unit{"ten", 1000, 0},
+		Unit{"five", 500, 0},
+		Unit{"one", 100, 0},
+		Unit{"quarter", 25, 0},
+		Unit{"dime", 10, 0},
+		Unit{"nickel", 5, 0},
+		Unit{"penny", 1, 0},
+	}
 	diff := tendered - cost
+
 	for {
-		switch {
-		case diff >= 2000:
-			_, ok := change["twenty"]
-			if !ok {
-				change["twenty"] = 0
+		for i, amount := range(changeOptions) {
+			if amount.give(diff) {
+				changeOptions[i].count += 1
+				diff -= amount.diff
+				break
 			}
-			change["twenty"]++
-			diff -= 2000
-		case diff >= 1000:
-			_, ok := change["ten"]
-			if !ok {
-				change["ten"] = 0
-			}
-			change["ten"]++
-			diff -= 1000
-		case diff >= 500:
-			_, ok := change["five"]
-			if !ok {
-				change["five"] = 0
-			}
-			change["five"]++
-			diff -= 500
-		case diff >= 100:
-			_, ok := change["one"]
-			if !ok {
-				change["one"] = 0
-			}
-			change["one"]++
-			diff -= 100
-		case diff >= 25:
-			_, ok := change["quarter"]
-			if !ok {
-				change["quarter"] = 0
-			}
-			change["quarter"]++
-			diff -= 25
-		case diff >= 10:
-			_, ok := change["dime"]
-			if !ok {
-				change["dime"] = 0
-			}
-			change["dime"]++
-			diff -= 10
-		case diff >= 5:
-			_, ok := change["nickel"]
-			if !ok {
-				change["nickel"] = 0
-			}
-			change["nickel"]++
-			diff -= 5
-		case diff >= 1:
-			_, ok := change["penny"]
-			if !ok {
-				change["penny"] = 0
-			}
-			change["penny"]++
-			diff -= 1
-		default:
-			return change
+		}
+		if diff == 0 {
+			break
 		}
 	}
-	return change
+	return changeOptions
 }
 
 func Usuage() {
@@ -108,5 +87,11 @@ func CliArgs() (int, int) {
 
 func main() {
 	tendered, cost := CliArgs()
-	fmt.Println(GetChange(tendered, cost))
+	changeGiven := GetChange(tendered, cost)
+
+	outcome := ""
+	for _, amount := range(changeGiven) {
+		outcome += amount.toString()
+	}
+	fmt.Println(outcome)
 }
