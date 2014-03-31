@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+const MAX = 1000000
+
 // Collatz Conjecture
 // Start with a number n > 1.
 // Find the number of steps it takes to reach one using the following process:
@@ -22,17 +24,31 @@ func collatz(n, count int) int {
 	}
 }
 
+func maxCollatz() {
+	n, maxC := 1, 0
+	var i int
+	for i=1; i<MAX; i++ {
+		temp := collatz(i, 0)
+		if temp > maxC {
+			n = i
+			maxC = temp
+			fmt.Println(n, maxC)
+		}
+	}
+	fmt.Printf("%d is the number with the most collatz iterations between 1 and %d with %d\n", n, MAX, maxC)
+}
+
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("You must pass in an integer as an argument!\n")
-		os.Exit(1)
-	}
+		maxCollatz()
+	} else {
 
-	n, err := strconv.Atoi(os.Args[1])
-	if err != nil {
-		fmt.Println("You must pass in an integer as an argument!\n")
-		os.Exit(1)
-	}
+		n, err := strconv.Atoi(os.Args[1])
+		if err != nil {
+			fmt.Println("You must pass in an integer as an argument!\n")
+			os.Exit(1)
+		}
 
-	fmt.Printf("The Collatz number of %d is %d.\n", n, collatz(n, 0))
+		fmt.Printf("The Collatz number of %d is %d.\n", n, collatz(n, 0))
+	}
 }
