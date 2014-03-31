@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"math"
 )
 
-const MAX = 1000000
+const MAX_POWER = 7
 
 // Collatz Conjecture
 // Start with a number n > 1.
@@ -27,7 +28,7 @@ func collatz(n, count int) int {
 func maxCollatz() {
 	n, maxC := 1, 0
 	var i int
-	for i=1; i<MAX; i++ {
+	for i=1; i<int(math.Pow10(MAX_POWER)); i++ {
 		temp := collatz(i, 0)
 		if temp > maxC {
 			n = i
@@ -35,7 +36,7 @@ func maxCollatz() {
 			fmt.Println(n, maxC)
 		}
 	}
-	fmt.Printf("%d is the number with the most collatz iterations between 1 and %d with %d\n", n, MAX, maxC)
+	fmt.Printf("%d is the number with the most collatz iterations between 1 and %d with %d\n", n, int(math.Pow10(MAX_POWER)), maxC)
 }
 
 func main() {
