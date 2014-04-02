@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"strconv"
-	"runtime"
 	"math"
+	"os"
+	"runtime"
+	"strconv"
 )
 
 const MAX_POWER = 7
@@ -31,26 +31,26 @@ func collatz(n, count int) int {
 
 func maxCollatzRangeWorker(s int, max chan Result) {
 	var n int
-	magnitude := int(math.Pow10(MAX_POWER-1))
+	magnitude := int(math.Pow10(MAX_POWER - 1))
 	maxC := 0
-	for i:= s*magnitude ; i<(s+1)*magnitude; i++ {
+	for i := s * magnitude; i < (s+1)*magnitude; i++ {
 		temp := collatz(i, 0)
 		if temp > maxC {
 			n = i
 			maxC = temp
 		}
 	}
-	max <-  Result{n, maxC}
+	max <- Result{n, maxC}
 }
 
 func maxCollatz() {
 	var maxNum, maxCount int
 	maxs := make(chan Result)
-	for i:=1; i<10; i++ {
+	for i := 1; i < 10; i++ {
 		go maxCollatzRangeWorker(i, maxs)
 	}
 
-	for i:=1; i<10; i++ {
+	for i := 1; i < 10; i++ {
 		r := <-maxs
 		if r.count > maxCount {
 			maxCount = r.count
